@@ -1,6 +1,9 @@
 # Ignore Environment Variables
 .env
 
+# Ignore vim swp file
+*.swp
+
 # Binaries for programs and plugins
 *.exe
 *.exe~
