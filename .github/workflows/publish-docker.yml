@@ -5,6 +5,10 @@ on:
   push:
     branches: [main]
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
 jobs:
   # define job to build and publish docker image
   build-and-push-docker-image:
@@ -17,32 +21,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # setup Docker buld action
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v1
-
-          #- name: Login to Github Packages
-          #uses: docker/login-action@v1
-          #with:
-          #registry: ghcr.io
-          #username: ${{ github.actor }}
-          #password: "${{ secrets.GITHUB_TOKEN }}" 
-
       - name: Commit Hash
         run: export GIT_HASH=$(git rev-parse --short "$GITHUB_SHA")
 
-      - name: Build image and push to Docker Hub and GitHub Container Registry
-        uses: docker/build-push-action@v2
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
-          # relative path to the place where source code with Dockerfile is located
-          context: . 
-          # Note: tags has to be all lower-case
-          tags: |
-            ghcr.io/undeadops/dumpster:$GIT_HASH
-            ghcr.io/undeadops/dumpster:latest
-          # build on feature branches, push only on main branch
-          push: ${{ github.ref == 'refs/heads/main' }}
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+
