@@ -47,7 +47,7 @@ jobs:
           push: true
           tags: |
             ${{ steps.meta.outputs.tags }}
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ SHORT_SHA }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$SHORT_SHA
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Image digest
