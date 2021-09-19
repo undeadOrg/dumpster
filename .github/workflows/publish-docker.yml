@@ -39,6 +39,7 @@ jobs:
         uses: Surgo/docker-smart-tag-action@v1
         with:
           docker_image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} 
+          tag_with_sha: true
 
       - name: Build and push Docker image
         id: build_push
