@@ -21,11 +21,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Commit Hash
-        run: |
-          export SHORT_SHA=$(git rev-parse --short "$GITHUB_SHA")
-          echo "::set-env name=SHORT_SHA::$SHORT_SHA"
-
       - name: Log in to the Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
@@ -47,7 +42,7 @@ jobs:
           push: true
           tags: |
             ${{ steps.meta.outputs.tags }}
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$SHORT_SHA
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$GITHUB_SHA
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Image digest
