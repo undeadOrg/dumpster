@@ -12,14 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        golang: [1.15, 1.16, 1.17]
+        go: ['1.17']
 
     steps:
       - uses: actions/checkout@v2
       - name: Setup Golang
-        uses: actions/setup-golang@v2
+        uses: actions/setup-go@v2
         with:
-          golang-versions: ${{ matrix.golang }}
+          go-version: ${{ matrix.go }}
       - name: Install Dependancies
         run: go mod download
       - name: Run Go Tests
