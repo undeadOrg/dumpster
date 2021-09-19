@@ -1,3 +1,6 @@
+# Ignore Environment Variables
+.env
+
 # Binaries for programs and plugins
 *.exe
 *.exe~
