@@ -5,7 +5,7 @@ on:
   push:
     branches: [main]
 
-defaults:
+jobs:
   # define job to build and publish docker image
   build-and-push-docker-image:
     name: Build Docker image and push to repositories
@@ -28,7 +28,10 @@ defaults:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ GITHUB_TOKEN }}
-      
+
+      - name: Commit Hash
+        run: export GIT_HASH=$(git rev-parse --short "$GITHUB_SHA")
+
       - name: Build image and push to Docker Hub and GitHub Container Registry
         uses: docker/build-push-action@v2
         with:
@@ -36,6 +39,7 @@ defaults:
           context: . 
           # Note: tags has to be all lower-case
           tags: |
+            ghcr.io/undeadops/dumpster:$GIT_HASH
             ghcr.io/undeadops/dumpster:latest
           # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/main' }}
