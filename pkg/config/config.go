@@ -8,17 +8,19 @@ import (
 
 // Config - Object for storing configuration for database
 type Config struct {
-	URI       string
-	DB        string
-	DebugMode bool
+	Collection string
+	URI        string
+	DB         string
+	DebugMode  bool
 }
 
 // New returns a new Config struct
 func New() *Config {
 	return &Config{
-		URI:       getEnv("URI", "mongodb://localhost:27017/?connect=direct"),
-		DB:        getEnv("DB", "enigma"),
-		DebugMode: getEnvAsBool("DEBUG_MODE", true),
+		URI:        getEnv("URI", "mongodb://localhost:27017/?connect=direct"),
+		DB:         getEnv("DB", "dumpsterfire"),
+		Collection: getEnv("Collection", "social"),
+		DebugMode:  getEnvAsBool("DEBUG_MODE", true),
 	}
 }
 
