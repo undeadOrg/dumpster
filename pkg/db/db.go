@@ -42,8 +42,8 @@ func connectLoop(ctx context.Context, client *options.ClientOptions) (*mongo.Cli
 }
 
 // NewDumpsterRepo - Connect to Database and return connection
-func NewDumpsterRepo(ctx context.Context, config config.Config, db string) (*DumpsterRepo, error) {
-	clientOptions := options.Client().ApplyURI(config)
+func NewDumpsterRepo(ctx context.Context, config config.Config) (*DumpsterRepo, error) {
+	clientOptions := options.Client().ApplyURI(config.URI)
 
 	// TODO: Implement Initial Retry Logic Here Maybe? or higherlevel in main function?
 	// Connect to MongoDB
@@ -61,7 +61,7 @@ func NewDumpsterRepo(ctx context.Context, config config.Config, db string) (*Dum
 	}
 
 	// Connect to the Configured Collection
-	collection := client.Database(db).Collection(config.Collection)
+	collection := client.Database(config.DB).Collection(config.Collection)
 
 	return &DumpsterRepo{collection}, nil
 }
