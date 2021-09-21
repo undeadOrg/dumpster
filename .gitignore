@@ -4,6 +4,12 @@
 # Ignore vim swp file
 *.swp
 
+# Ignore vscode things
+.vscode/* 
+
+# Ignore codespaces things
+__debug_bin
+
 # Binaries for programs and plugins
 *.exe
 *.exe~
