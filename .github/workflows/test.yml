@@ -1,0 +1,28 @@
+name: Test 
+
+on:
+  [push]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go: ['1.17']
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Golang
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go }}
+      - name: Install Dependancies
+        run: go mod download
+      - name: Run Go Tests
+        run: go test -v ./...
+
+

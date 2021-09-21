@@ -6,6 +6,8 @@ import (
 	"log"
 	"time"
 
+	"dumpster/pkg/config"
+
 	"github.com/pkg/errors"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -40,8 +42,8 @@ func connectLoop(ctx context.Context, client *options.ClientOptions) (*mongo.Cli
 }
 
 // NewDumpsterRepo - Connect to Database and return connection
-func NewDumpsterRepo(ctx context.Context, config string, db string) (*DumpsterRepo, error) {
-	clientOptions := options.Client().ApplyURI(config)
+func NewDumpsterRepo(ctx context.Context, config config.Config) (*DumpsterRepo, error) {
+	clientOptions := options.Client().ApplyURI(config.URI)
 
 	// TODO: Implement Initial Retry Logic Here Maybe? or higherlevel in main function?
 	// Connect to MongoDB
@@ -59,7 +61,7 @@ func NewDumpsterRepo(ctx context.Context, config string, db string) (*DumpsterRe
 	}
 
 	// Connect to the Configured Collection
-	collection := client.Database(db).Collection(config.Collection)
+	collection := client.Database(config.DB).Collection(config.Collection)
 
 	return &DumpsterRepo{collection}, nil
 }
