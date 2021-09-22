@@ -28,7 +28,7 @@ func (h *Handler) SavePayload(w http.ResponseWriter, r *http.Request) {
 	// I'm going to cheat here... for now
 	// TODO: Fix this for RequestObject conversion to Storage Object somehow?...
 	queryStart := time.Now()
-	err = h.socialdata.SavePayload(r.Context(), post)
+	err = h.socialdata.SaveObject(r.Context(), post)
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, "Server Error"+err.Error())
 	}
