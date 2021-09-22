@@ -28,7 +28,8 @@ func (h *Handler) SavePayload(w http.ResponseWriter, r *http.Request) {
 	// I'm going to cheat here... for now
 	// TODO: Fix this for RequestObject conversion to Storage Object somehow?...
 	queryStart := time.Now()
-	err = h.socialdata.SaveObject(r.Context(), post)
+
+	err = h.Data.SaveObject(r.Context(), post)
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, "Server Error"+err.Error())
 	}
@@ -49,7 +50,7 @@ func (h *Handler) UpdateSocial(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&post)
 
 	queryStart := time.Now()
-	_, err = h.socialdata.GetByID(r.Context(), id)
+	_, err = h.Data.GetByID(r.Context(), id)
 	if err != nil {
 		respondWithError(w, http.StatusBadRequest, "Could not update question")
 	}
@@ -69,7 +70,7 @@ func (h *Handler) GetSocialID(w http.ResponseWriter, r *http.Request) {
 	ev.AddField("response.id", id)
 
 	queryStart := time.Now()
-	result, err := h.socialdata.GetByID(r.Context(), id)
+	result, err := h.Data.GetByID(r.Context(), id)
 	if err != nil {
 		respondWithError(w, http.StatusBadRequest, "Could not Fetch Response")
 	}
@@ -85,7 +86,7 @@ func (h *Handler) GetSocials(w http.ResponseWriter, r *http.Request) {
 	defer addFinalErr(&err, ev)
 
 	queryStart := time.Now()
-	results, err := h.socialdata.ListObjects(r.Context())
+	results, err := h.Data.ListObjects(r.Context())
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, "Server Error")
 	}
@@ -105,7 +106,7 @@ func (h *Handler) DeleteSocial(w http.ResponseWriter, r *http.Request) {
 	ev.AddField("response.id", id)
 
 	queryStart := time.Now()
-	err = h.socialdata.DeleteObject(r.Context(), id)
+	err = h.Data.DeleteObject(r.Context(), id)
 	if err != nil {
 		respondWithError(w, http.StatusBadRequest, "Error Deleting ID")
 	}

@@ -12,7 +12,7 @@ import (
 	"dumpster/pkg/storage"
 )
 
-// SavePayload - Save Reponse to database
+// SaveObject - Save Reponse to database
 func (d *DumpsterRepo) SaveObject(ctx context.Context, r *storage.Payload) error {
 	// Set ID
 	r.ID = primitive.NewObjectID()
@@ -27,7 +27,7 @@ func (d *DumpsterRepo) SaveObject(ctx context.Context, r *storage.Payload) error
 	return nil
 }
 
-// DeleteResponse - Delete a Response
+// DeleteObject - Delete a Response
 func (d *DumpsterRepo) DeleteObject(ctx context.Context, id string) error {
 	objID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
@@ -44,12 +44,12 @@ func (d *DumpsterRepo) DeleteObject(ctx context.Context, id string) error {
 
 }
 
-// ListResponses - Return a List of Responses
-func (d *DumpsterRepo) ListObjects(ctx context.Context) ([]*storage.Response, error) {
+// ListObjects - Return a List of Responses
+func (d *DumpsterRepo) ListObjects(ctx context.Context) ([]*storage.Payload, error) {
 	findOptions := options.Find()
 	findOptions.SetLimit(50)
 
-	var results []*storage.Response
+	var results []*storage.Payload
 
 	cur, err := d.Find(ctx, bson.D{{}}, findOptions)
 	if err != nil {
@@ -61,7 +61,7 @@ func (d *DumpsterRepo) ListObjects(ctx context.Context) ([]*storage.Response, er
 	for cur.Next(ctx) {
 
 		// create a value into which the single document can be decoded
-		var elem storage.Response
+		var elem storage.Payload
 		err := cur.Decode(&elem)
 		if err != nil {
 			fmt.Printf("Error Decoding Element: %v", err)
@@ -80,31 +80,31 @@ func (d *DumpsterRepo) ListObjects(ctx context.Context) ([]*storage.Response, er
 }
 
 // GetByID - Return a reponse based ID given
-func (d *DumpsterRepo) GetByID(ctx context.Context, id string) (*storage.Response, error) {
-	var result storage.Response
+func (d *DumpsterRepo) GetByID(ctx context.Context, id string) (*storage.Payload, error) {
+	var result storage.Payload
 
 	objID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		return &storage.Response{}, err
+		return &storage.Payload{}, err
 	}
 
 	filter := bson.M{"_id": objID}
 	err = d.FindOne(ctx, filter).Decode(&result)
 	if err != nil {
-		return &storage.Response{}, err
+		return &storage.Payload{}, err
 	}
 
 	return &result, nil
 }
 
 // GetByTwID - Return a reponse based ID given
-func (d *DumpsterRepo) GetByTwID(ctx context.Context, id string) (*storage.Response, error) {
-	var result storage.Response
+func (d *DumpsterRepo) GetByTwID(ctx context.Context, id string) (*storage.Payload, error) {
+	var result storage.Payload
 
 	filter := bson.M{"twitter_id": id}
 	err := d.FindOne(ctx, filter).Decode(&result)
 	if err != nil {
-		return &storage.Response{}, err
+		return &storage.Payload{}, err
 	}
 
 	return &result, nil

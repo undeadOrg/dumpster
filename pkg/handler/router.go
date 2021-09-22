@@ -9,13 +9,13 @@ import (
 
 // Handler - Context for Handling of Questions routes
 type Handler struct {
-	socialdata *storage.DumpsterData
+	Data storage.DumpsterData
 }
 
 // NewHandler - Initialize Handler
-func NewHandler(d *storage.DumpsterData) *Handler {
+func NewHandler(d storage.DumpsterData) *Handler {
 	return &Handler{
-		socialdata: d,
+		Data: d,
 	}
 }
 
