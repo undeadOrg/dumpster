@@ -7,7 +7,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: undeadops/dumpster 
+  IMAGE_NAME: undeadorg/dumpster 
 
 jobs:
   # define job to build and publish docker image
