@@ -7,7 +7,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: undeadops/dumpster 
 
 jobs:
   # define job to build and publish docker image
@@ -48,8 +48,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ steps.meta.outputs.tags.lowercase }}
-            ${{ steps.prepare.outputs.tag.lowercase }} 
+            ${{ steps.meta.outputs.tags }}
+            ${{ steps.prepare.outputs.tag }} 
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Image digest
