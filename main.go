@@ -2,17 +2,17 @@ package main
 
 import (
 	"context"
+	"dumpster/pkg/config"
+	"dumpster/pkg/db"
+	"dumpster/pkg/handler"
 	"flag"
-	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/render"
-
 )
 
 // Debug - Enable debug logging
@@ -37,15 +37,12 @@ func Router() *chi.Mux {
 }
 
 func main() {
+	var port = "5000"
+	flag.StringVar(&port, "port", port, "Port")
 	flag.Parse()
 
-	//c := config.New()
-
-	port := os.Getenv("PORT")
-
-	if port == "" {
-		log.Fatal("$PORT must be set")
-	}
+	// Initialize Basic Config
+	conf := config.New()
 
 	// Setup Connection timeouts
 	ctx := context.Background()
@@ -53,29 +50,24 @@ func main() {
 	defer cancel()
 
 	// Connect to database
-	//fmt.Printf("Connecting to Database\n")
-	//qrepo, err := db.NewQuestionsRepo(ctx, c.URI, c.DB)
-	//if err != nil {
+	log.Printf("Connecting to Database\n")
+	s, err := db.NewDumpsterRepo(ctx, conf)
+	if err != nil {
 		// Implement better health checking/retry here or in lib
-	//	log.Fatalf("Cannot set up Database: %v", err)
-	//}
+		log.Fatalf("Cannot set up Database: %v", err)
+	}
 
-	//qset, err := db.NewQuestionSetRepo(ctx, c.URI, "question_set")
-	//if err != nil {
-	//	log.Fatalf("Cannot set up Database: %v", err)
-	//}
-
-	//qhandler := questions.NewHandler(qrepo, qset)
+	handlers := handler.NewHandler(s)
 
 	// Setup Router
 	router := Router()
 
 	router.Get("/", index)
 
-	//router.Route("/api/v1", func(r chi.Router) {
-	//	r.Mount("/questions", questions.Router(qhandler))
-	//})
-	fmt.Printf("Starting up Webserver\n")
+	router.Route("/api/v1", func(r chi.Router) {
+		r.Mount("/social", handler.Router(handlers))
+	})
+	log.Printf("Starting up Webserver\n")
 	log.Fatal(http.ListenAndServe(":"+port, router))
 }
 
@@ -85,6 +77,6 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 func ping(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(200)
-		w.Write([]byte("."))
-	}
+	w.WriteHeader(200)
+	w.Write([]byte("."))
+}

@@ -9,7 +9,7 @@ import (
 
 // DumpsterData
 type DumpsterData interface {
-	SavePayload(context.Context, *Payload) error
+	SaveObject(context.Context, *Payload) error
 	DeleteObject(context.Context, string) error
 	ListObjects(context.Context) ([]*Payload, error)
 	GetByID(context.Context, string) (*Payload, error)
@@ -26,4 +26,11 @@ type Payload struct {
 	UserName       string             `json:"twitter_user_name" bson:"twitter_user_name"`
 	UserScreenName string             `json:"twitter_user_screen_name" bson:"twitter_user_screen"`
 	TextSentiment  int                `json:"text_sentiment,omitempty" bson:"text_sentiment,omitempty"`
+}
+
+// Response - Result of Querying
+type Response struct {
+	ID      primitive.ObjectID `json:"id,omitempty" bson:"_id,omitempty"`
+	Date    time.Time          `json:"date" bson:"date"`
+	Payload Payload            `json:"payload" bson:"payload"`
 }

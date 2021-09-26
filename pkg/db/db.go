@@ -24,8 +24,8 @@ func connectLoop(ctx context.Context, client *options.ClientOptions) (*mongo.Cli
 	defer ticker.Stop()
 
 	timeout := 5 * time.Minute
-
 	timeoutExceeded := time.After(timeout)
+
 	for {
 		select {
 		case <-timeoutExceeded:
@@ -42,7 +42,7 @@ func connectLoop(ctx context.Context, client *options.ClientOptions) (*mongo.Cli
 }
 
 // NewDumpsterRepo - Connect to Database and return connection
-func NewDumpsterRepo(ctx context.Context, config config.Config) (*DumpsterRepo, error) {
+func NewDumpsterRepo(ctx context.Context, config *config.Config) (*DumpsterRepo, error) {
 	clientOptions := options.Client().ApplyURI(config.URI)
 
 	// TODO: Implement Initial Retry Logic Here Maybe? or higherlevel in main function?
