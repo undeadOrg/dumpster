@@ -48,8 +48,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ steps.meta.outputs.tags }}
-            ${{ steps.prepare.outputs.tag }} 
+            ${{ steps.meta.outputs.tags.lowercase }}
+            ${{ steps.prepare.outputs.tag.lowercase }} 
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Image digest
