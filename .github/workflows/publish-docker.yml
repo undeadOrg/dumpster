@@ -3,7 +3,8 @@ name: Build and Publish
 on:
   # run it on push to the default repository branch
   push:
-    branches: [tags]
+    tags:
+    - '*'
 
 env:
   REGISTRY: ghcr.io
