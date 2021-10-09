@@ -1,8 +1,9 @@
-name: Build Check For Pull Request
+name: Build Docker Image for Head of main 
 
 on:
   push:
-    branches: [ $default_branch ] 
+    branches:
+      - "main" 
 
 env:
   REGISTRY: ghcr.io

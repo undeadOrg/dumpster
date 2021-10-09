@@ -1,4 +1,9 @@
-on: [push, pull_request]
+on: 
+  push:
+    branches:
+      - "*"
+      - "!main"
+
 name: Test
 jobs:
   test:
@@ -18,6 +23,7 @@ jobs:
       run: go test ./...
   docker:
     runs-on: ubuntu-latest
+    needs: test
     steps:
       -
         name: Set up QEMU
