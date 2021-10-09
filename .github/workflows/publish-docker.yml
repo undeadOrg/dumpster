@@ -1,10 +1,10 @@
 name: Build and Publish
 
 on:
-  # run it on push to the default repository branch
   push:
     tags:
-    - '*'
+      - '*'
+
 
 env:
   REGISTRY: ghcr.io

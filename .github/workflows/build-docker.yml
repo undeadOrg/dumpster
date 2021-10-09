@@ -2,7 +2,7 @@ name: Build Check For Pull Request
 
 on:
   pull_request:
-    branches: [ $default-branch ] 
+    branches: * 
 
 env:
   REGISTRY: ghcr.io
