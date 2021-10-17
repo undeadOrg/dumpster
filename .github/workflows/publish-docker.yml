@@ -85,3 +85,7 @@ jobs:
       - name: Image digest
         run: echo ${{ steps.build_push.outputs.digest }}
 
+
+      - name: Image GCR digest
+        run: echo ${{ steps.push-gcr.outputs.digest }}
+
