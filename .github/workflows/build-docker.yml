@@ -18,6 +18,12 @@ jobs:
 
     # steps to perform in job
     steps:
+      - uses: kvrhdn/gha-buildevents@v1
+        with:
+          apikey: ${{ secrets.BUILDEVENTS_APIKEY }}
+          dataset: dumpster-buildevents
+          job-status: ${{ job.status }}
+
       - name: Checkout code
         uses: actions/checkout@v2
 
