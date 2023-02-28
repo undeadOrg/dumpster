@@ -4,13 +4,14 @@ go 1.17
 
 require (
 	github.com/go-chi/chi v1.5.4
-	github.com/go-chi/render v1.0.1
+	github.com/go-chi/render v1.0.2
 	github.com/honeycombio/libhoney-go v1.15.4
 	github.com/pkg/errors v0.9.1
 	go.mongodb.org/mongo-driver v1.7.2
 )
 
 require (
+	github.com/ajg/form v1.5.1 // indirect
 	github.com/facebookgo/clock v0.0.0-20150410010913-600d898af40a // indirect
 	github.com/facebookgo/limitgroup v0.0.0-20150612190941-6abd8d71ec01 // indirect
 	github.com/facebookgo/muster v0.0.0-20150708232844-fd3d7953fd52 // indirect
