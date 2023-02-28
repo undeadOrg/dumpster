@@ -3,7 +3,7 @@ module dumpster
 go 1.17
 
 require (
-	github.com/go-chi/chi v1.5.4
+	github.com/go-chi/chi v4.1.2+incompatible
 	github.com/go-chi/render v1.0.1
 	github.com/honeycombio/libhoney-go v1.15.4
 	github.com/pkg/errors v0.9.1
