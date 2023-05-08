@@ -7,7 +7,7 @@ require (
 	github.com/go-chi/render v1.0.2
 	github.com/honeycombio/libhoney-go v1.18.0
 	github.com/pkg/errors v0.9.1
-	go.mongodb.org/mongo-driver v1.11.2
+	go.mongodb.org/mongo-driver v1.11.6
 )
 
 require (
